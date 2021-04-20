@@ -569,7 +569,7 @@ class CropClass:
 
 
 
-    def __init__(self,c_name,P, PlantingDate,HarvestDate=None, **kwargs):
+    def __init__(self,c_name, P, PlantingDate,HarvestDate=None, **kwargs):
 
         self.Name = ''
 
