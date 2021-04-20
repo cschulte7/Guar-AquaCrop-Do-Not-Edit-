@@ -604,17 +604,17 @@ class CropClass:
             self.PolColdStress = 0; self.Tmin_up = 15; self.Tmin_lo = 5; self.TrColdStress = 1;
         
             self.GDD_up = 12;
-            self.GDD_lo = 0; self.Zmin = 0.3; self.Zmax = 1.5;
+            self.GDD_lo = 0; self.Zmin = 0.3; self.Zmax = 0.8;
             self.fshape_r = 1.5; 
             self.SxTopQ = 0.0480; 
-            self.SxBotQ = 0.012;
+            self.SxBotQ = 0.016;
             
-            self.SeedSize = 4.32; self.PlantPop = 240_000 # Hadiqa
+            self.SeedSize = 4.32; self.PlantPop = 123_000 # Hadiqa
             
-            self.CCx = 0.96;
-            self.CDC = 0.004; 
-            self.CGC = 0.005; 
-            self.Kcb = 1.15;
+            self.CCx = 0.95;
+            self.CDC = 0.09; 
+            self.CGC = 0.15; 
+            self.Kcb = 1.13;
             self.fage = 0.1; 
             self.WP = 15; 
             self.WPy = 100;
@@ -622,11 +622,11 @@ class CropClass:
             
             self.HI0 = 0.29; 
             
-            self.dHI_pre = 5;
+            self.dHI_pre = 2.4;
             self.a_HI = 4; self.b_HI = 10; 
-            self.dHI0 = 15;
+            self.dHI0 = 2;
             
-            self.Determinant = 0; self.exc = 0; self.p_up1 = 0.35; self.p_up2 = 0.70; self.p_up3 = 0.8; self.p_up4 = 0.95;
+            self.Determinant = 0; self.exc = 0; self.p_up1 = 0.35; self.p_up2 = 0.75; self.p_up3 = 0.8; self.p_up4 = 0.95;
             self.p_lo1 = 0.7; self.p_lo2 = 1; self.p_lo3 = 1; self.p_lo4 = 1; 
 
             self.fshape_w1 = 2.9;
