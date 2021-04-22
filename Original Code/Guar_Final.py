@@ -45,21 +45,6 @@ GrowthHead = model.Outputs.Growth.head(None)
 # Final summary (seasonal total) dataframe
 FinalHead = model.Outputs.Final.head(None) 
 
-
-# Plotting canopy coverage over time (days after planting)
-plt1 = GrowthHead.plot(x ='DAP', y='CC', kind='line', label = 'With stress', title = 'Canopy Coverage over Time')
-GrowthHead.plot(x ='DAP', y='CC_NS', kind='line', color = 'y', label = 'Without stress', ax=plt1)
-plt1.set_ylabel("Canopy Coverage")
-plt1.set_xlabel("Days After Planting (DAP)")
-
-# Plotting biomass with no stress and stress conditions over time (days after planting) on the same graph
-plt2 = GrowthHead.plot(x ='DAP', y='B_NS', kind='line', color = "k", label = 'Without stress', title = 'Biomass over Time')
-GrowthHead.plot(x ='DAP', y='B', kind='line', color = "r", label='With stress', ax=plt2)
-#GrowthHead.plot(x ='DAP', y='B', color = "r", ax=plt3)
-plt2.set_ylabel("Biomass (kg/ha)")
-plt2.set_xlabel("Days After Planting (DAP)")
-#Plot one less point 
-
 # The following are print statements to see different outputs
 # Final summary (season total)
 print('\n Final Summary = \n', FinalHead) 
@@ -69,4 +54,20 @@ print('\n Daily Water Flux = \n', FluxHead)
 print('\n Soil Water Content = \n', WaterHead)
 # Crop growth
 print('\n Crop Growth = \n', GrowthHead) 
+
+# Plotting canopy coverage over time (days after planting)
+GrowthHead = GrowthHead[(GrowthHead.T != 0).any()]
+plt1 = GrowthHead.plot(x ='DAP', y='CC', kind='line', label = 'With stress', title = 'Canopy Coverage over Time')
+GrowthHead.plot(x ='DAP', y='CC_NS', kind='line', color = 'y', label = 'Without stress', ax=plt1)
+plt1.set_ylabel("Canopy Coverage")
+plt1.set_xlabel("Days After Planting (DAP)")
+
+# Plotting biomass with no stress and stress conditions over time (days after planting) on the same graph
+plt2 = GrowthHead.plot(x ='DAP', y='B_NS', kind='line', color = "k", label = 'Without stress', title = 'Biomass over Time')
+GrowthHead.plot(x ='DAP', y='B', kind='line', color = "r", label='With stress', ax=plt2)
+plt2.set_ylabel("Biomass (kg/ha)")
+plt2.set_xlabel("Days After Planting (DAP)")
+#Plot one less point 
+
+
 
