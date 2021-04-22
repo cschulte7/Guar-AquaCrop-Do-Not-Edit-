@@ -11,7 +11,8 @@ _=[sys.path.append(i) for i in ['.', '..']] # finds 'AquaCrop' file
 
 import matplotlib.pyplot as plt
 import matplotlib
-import seaborn as sns # Visualization tool used for high-level interface for drawing attractive and informative stastical graphics
+# Visualization tool used for high-level interface for drawing attractive and informative stastical graphics
+import seaborn as sns 
 import numpy as np
 import pandas as pd
 from aquacrop.core import *
@@ -27,6 +28,8 @@ pathprefix='/home/ecoslacker/Documents/WINDS_Data/'
 
 db=create_engine('mysql://UofABEWINDS:WINDSAWSPort2020@windsdatabase-1.cdzagwevzppe.us-west-1.rds.amazonaws.com:3306/winds_test')
 Guar_data = pd.read_sql('SELECT * from Aquacrop_crop_table',con=db)  #Reads all data from mysql db
+Field_data = pd.read_sql('SELECT * from Aquacrop_field_table',con=db)  #Reads all data from mysql db
+Soil_data = pd.read_sql('SELECT * from Aquacrop_soil_layers',con=db)  #Reads all data from mysql db
 
 #test
 class plant_data:
@@ -36,7 +39,7 @@ class plant_data:
         self.Plant_method= int(Guar_data['Plant Method'])                             
         self.Calendar_type = int(Guar_data['Calendar Type'])                           
         self.SwitchGDD = int(Guar_data['SwitchGDD'])                             
-        self.Planting_date = Guar_data['Planting Date']                           
+        self.Planting_date = Guar_data['Planting Date']                             
         self.Harvest_date = Guar_data['Harvest Date']                             
         self.Emergence = float(Guar_data['Emergence'])                             
         self.MaxRooting = float(Guar_data['Max Rooting'])                             
@@ -112,9 +115,37 @@ class plant_data:
         self.HIini = float(Guar_data['HIini']); # Initial harvest index
         self.bsted = float(Guar_data['bsted']); # WP co2 adjustment parameter given by Steduto et al. 2007
         self.bface = float(Guar_data['bface']); # WP co2 adjustment parameter given by FACE experiments
-            
+
+class field_data:
+    def __init__(self, Field_data):
+        self.Field_Name = Field_data['Field_name']
+        self.Field_Number = Field_data['Field_number']
+        self.Soil_Type = Field_data['soilType']                             
+        self.CN = int(Field_data['CN'])                             
+        self.CalcCN = int(Field_data['CalcCN'])                           
+        self.REW = float(Field_data['REW'])                             
+        self.dz = float(Field_data['dz'])                             
+        self.Number_of_Layers = int(Field_data['Number of Layers'])                             
+
+class soil_data:
+    def __init__(self, Soil_data):
+        self.Field_Name = Soil_data['FieldName']
+        self.Field_Number = Soil_data['Field_number']
+        self.Layer_Number = int(Soil_data['LayerNumber'])                             
+        self.Layer_Thickness= float(Soil_data['LayerThickness'])                             
+        self.Wilting_Point = float(Soil_data['Wilting Point'])                           
+        self.Field_Capacity = float(Soil_data['Field Capacity'])                             
+        self.Saturation = float(Soil_data['Saturation'])                             
+        self.Hydraulic_Conductivity = float(Soil_data['Hydraulic Conductivity'])                             
+        self.Soil_Penetrability = float(Soil_data['Soil Penetrability'])                             
+     
+    
 Guar_data_in = Guar_data.loc[(Guar_data['User']=='Pete') & (Guar_data['Crop Name']== 'Guar')]
+Field_data_in = Field_data.loc[(Field_data['User']=='Pete') & (Field_data['Field_name'] == 'Guar1')]
+Soil_data_in = Soil_data.loc[(Soil_data['User']=='Pete') & (Soil_data['FieldName'] == 'Guar1') & (Soil_data['LayerNumber'] == 1)]
 P = plant_data(Guar_data_in)
+F = field_data(Field_data_in)
+S = soil_data(Soil_data_in)
 
 print('Crop type', P.Crop_type)
 # Reads in the weather data
@@ -124,9 +155,9 @@ with open('GuarWeather_Clovis_2018.txt', 'w') as f: weather.to_string(f, col_spa
 # Uses the function prepare weather to convert weather data
 wdf = prepare_weather('GuarWeather_Clovis_2018.txt') 
 # Grabs the soil class from the classes.py file
-soil = SoilClass('ClayLoamGuar2018') 
+soil = SoilClass('DatabaseSoil', F, S) 
 # Prepares the crop class with the name of the crop, planting date, and harvest date
-crop = CropClass('GuarGDD', P, PlantingDate = '06/15',HarvestDate = '11/16')
+crop = CropClass('GuarGDD', P, PlantingDate='06/15',HarvestDate='11/16')
 # Initialize water content to be field capacity 
 InitWC = InitWCClass(value=['FC']) 
 # The model is run using SimStartTime, SimEndTime, weather data, soil, crop, initial water content
