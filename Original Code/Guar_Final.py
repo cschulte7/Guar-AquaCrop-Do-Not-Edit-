@@ -44,6 +44,7 @@ WaterHead = model.Outputs.Water.head(None)
 GrowthHead = model.Outputs.Growth.head(None) 
 # Final summary (seasonal total) dataframe
 FinalHead = model.Outputs.Final.head(None) 
+GrowthHead = GrowthHead[(GrowthHead.T != 0).any()]
 
 # The following are print statements to see different outputs
 # Final summary (season total)
