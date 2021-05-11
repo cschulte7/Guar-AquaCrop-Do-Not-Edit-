@@ -8,10 +8,9 @@ db=create_engine('mysql://UofABEWINDS:WINDSAWSPort2020@windsdatabase-1.cdzagwevz
 connection = db.raw_connection()
 cursor = connection.cursor()
 
-myfile1="Aquacrop_crop_table_Schulte.csv"
+myfile1="Aquacrop_crop_table_Update.csv"
 
 df_file=pd.read_csv(myfile1,sep=",")
-
 
 df_file.to_sql(name='Aquacrop_crop_table',con=db,if_exists='append',index=False)  #test table is the name of the table you want, it will auto append if the table exists
 
